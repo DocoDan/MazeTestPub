@@ -16,7 +16,24 @@ onready var _raycasts = {"left" : $Raycasts/left,
 							"up" : $Raycasts/up,
 							"down" : $Raycasts/down}
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+
+func move(dir):
+
+	facing = dir
+	$AnimationPlayer.playback_speed = speed
+	_can_move = false
+	if _raycasts[facing].is_colliding():
+		return
+
+	$MovementTween.interpolate_property(self,"position",position,position+_movement[facing] * _tileSize,
+	1.0/_speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	$MovementTween.start()
+	return true
+	)
+
+func _on_MovementTween_tween_completed(object, key):
+	can_move = true
+
+
+
 

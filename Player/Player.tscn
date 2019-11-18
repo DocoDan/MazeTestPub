@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Player/Character.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/player.png" type="Texture" id=2]
+
+[node name="Character" index="0" instance=ExtResource( 1 )]
+collision_layer = 2
+collision_mask = 13
+
+[node name="Sprite" parent="." index="1"]
+texture = ExtResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="." index="5"]

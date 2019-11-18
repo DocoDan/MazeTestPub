@@ -1,6 +1,5 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://assets/player.png" type="Texture" id=1]
 [ext_resource path="res://Player/Character.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -81,12 +80,11 @@ script = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
 vframes = 4
 hframes = 5
 frame = 11
 
-[node name="Tween" type="Tween" parent="."]
+[node name="MovementTween" type="Tween" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/down = SubResource( 2 )
@@ -108,3 +106,4 @@ cast_to = Vector2( 0, -64 )
 
 [node name="down" type="RayCast2D" parent="Raycasts"]
 cast_to = Vector2( 0, 64 )
+[connection signal="tween_completed" from="MovementTween" to="." method="_on_MovementTween_tween_completed"]

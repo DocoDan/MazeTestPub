@@ -1,7 +1,17 @@
+#The base scene for all sorts of Characters
+#-Player and enemies will inherit from it
+#-adapt collision and mask layer
+#-Texture for Animation Player
+#-change base node title
+#-add Camera for Player
+
+#any changes in this scene will affect the child scene
+
 extends Area2D
 
 export (int) var _speed
-bool _can_move=true
+#Is this for keyboard Input?
+var _can_move=true
 var _tileSize = 64
 var facing = "right"
 
@@ -17,23 +27,24 @@ onready var _raycasts = {"left" : $Raycasts/left,
 							"down" : $Raycasts/down}
 
 
-func move(dir):
 
+func move(dir):
+	$AnimationPlayer.playback_speed= _speed
 	facing = dir
-	$AnimationPlayer.playback_speed = speed
-	_can_move = false
 	if _raycasts[facing].is_colliding():
+		#No movement here
 		return
 
-	$MovementTween.interpolate_property(self,"position",position,position+_movement[facing] * _tileSize,
-	1.0/_speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-	$MovementTween.start()
+	_can_move = false	
+	#Select the correct animation this is probably something for a State machine
+	$AnimationPlayer.play(facing)
+	$MoveTween.interpolate_property(self,"position",
+	position,position+_movement[facing] * _tileSize, 1.0/_speed, Tween.TRANS_SINE,Tween.EASE_OUT)
+	$MoveTween.start()
 	return true
-	)
 
-func _on_MovementTween_tween_completed(object, key):
-	can_move = true
-
-
-
+#After movement is complete make Keyboard input possible again
+func _on_MoveTween_completed(object, key):
+	print("Can move ist true again!")
+	_can_move = true
 
